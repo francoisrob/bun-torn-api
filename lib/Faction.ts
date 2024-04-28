@@ -45,37 +45,7 @@ export class Faction extends TornAPIBase {
             method: 'get'
         });
 
-        if (query instanceof Error) {
-            return { code: 0, error: query.message };
-        } else {
-            const response = await query.json();
-            if (response.data && response.data.error) {
-                return response.data.error;
-            } else if (response.data) {
-                const factionReturn: IFaction = response.data;
-                factionReturn.members = this.fixStringArray(factionReturn.members, 'id');
-
-                const peaceArray: IPeace[] = [];
-                const ids = Object.keys(factionReturn.peace);
-                for (let i = 0; i < ids.length; i++) {
-                    const id = ids[i];
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    const field = (factionReturn.peace as any)[id];
-                    peaceArray.push({ faction_id: Number(id), until: field });
-                }
-                factionReturn.peace = peaceArray;
-
-                const rankedWar: IRankedWar[] = this.fixStringArray(response.data.ranked_wars, 'id');
-                rankedWar.forEach((item) => {
-                    item.factions = this.fixStringArray(item.factions, 'id');
-                });
-                factionReturn.ranked_wars = rankedWar[0];
-
-                return factionReturn;
-            }
-        }
-
-        return TornAPIBase.GenericAPIError;
+        return await query.json();
     }
 
     async applications(): Promise<Errorable<IApplication[]>> {
@@ -128,21 +98,7 @@ export class Faction extends TornAPIBase {
             headers: { 'Content-Type': 'application/json' },
             method: 'get'
         });
-
-        if (query instanceof Error) {
-            return { code: 0, error: query.message };
-        } else {
-            const response = await query.json();
-            if (response.data && response.data.error) {
-                return response.data.error;
-            } else if (response.data) {
-                const factionReturn: IChainReport = response.data.chainreport;
-                factionReturn.members = this.fixStringArray(factionReturn.members, '');
-                return factionReturn;
-            }
-        }
-
-        return TornAPIBase.GenericAPIError;
+        return await query.json();
     }
 
     async chains(): Promise<Errorable<ICompleteChain[]>> {
@@ -167,37 +123,7 @@ export class Faction extends TornAPIBase {
     }
 
     async crimes(from?: number, to?: number): Promise<Errorable<ICrime[]>> {
-        const crimes = await this.apiQueryToArray<ICrime>({ route: 'faction', selection: 'crimes', from: from, to: to }, 'id');
-
-        if (!('error' in crimes)) {
-            crimes.forEach((value) => {
-                const internalParticipants = value.participants;
-                const participants: ICrimeParticipant[] = [];
-                for (let i = 0; i < internalParticipants.length; i++) {
-                    const participantMap = this.fixStringMap<Partial<ICrimeParticipant>>(internalParticipants[i]);
-                    const id = participantMap.keys().next().value;
-                    const value = participantMap.get(id);
-
-                    const participant: ICrimeParticipant = {
-                        id: id
-                    };
-
-                    if (value) {
-                        participant.color = value.color;
-                        participant.description = value.description;
-                        participant.details = value.details;
-                        participant.state = value.state;
-                        participant.until = value.until;
-                    }
-
-                    participants.push(participant);
-                }
-
-                value.participants = participants;
-            });
-        }
-
-        return crimes;
+        return await this.apiQueryToArray<ICrime>({ route: 'faction', selection: 'crimes', from: from, to: to }, 'id');
     }
 
     async currency(): Promise<Errorable<ICurrency>> {

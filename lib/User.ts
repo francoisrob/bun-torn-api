@@ -54,29 +54,7 @@ export class User extends TornAPIBase {
             headers: { 'Content-Type': 'application/json' },
             method: 'get'
         });
-        if (query instanceof Error) {
-            return { code: 0, error: query.message };
-        } else {
-            const response = await query.json();
-            if (response.data && response.data.error) {
-                return response.data.error;
-            } else if (response.data) {
-                const user = response.data;
-
-                const icons: IIcon[] = [];
-                const iconNames = Object.keys(user.basicicons);
-                for (let i = 0; i < iconNames.length; i++) {
-                    const name = iconNames[i];
-                    const value = user.basicicons[name];
-                    icons.push({ name: name, value: value });
-                }
-
-                user.basicicons = icons;
-                return user;
-            }
-
-            return TornAPIBase.GenericAPIError;
-        }
+        return await query.json();
     }
 
     async ammo(): Promise<Errorable<IAmmo[]>> {
@@ -156,27 +134,7 @@ export class User extends TornAPIBase {
             headers: { 'Content-Type': 'application/json' },
             method: 'get'
         });
-
-        if (query instanceof Error) {
-            return { code: 0, error: query.message };
-        } else {
-            const response = await query.json();
-            if (response.data && response.data.error) {
-                return response.data.error;
-            } else if (response.data) {
-                const icons: IIcon[] = [];
-                const iconNames = Object.keys(response.data.icons);
-                for (let i = 0; i < iconNames.length; i++) {
-                    const name = iconNames[i];
-                    const value = response.data.icons[name];
-                    icons.push({ name: name, value: value });
-                }
-
-                return icons;
-            }
-
-            return TornAPIBase.GenericAPIError;
-        }
+        return await query.json();
     }
 
     async jobpoints(): Promise<Errorable<IJobPoints>> {
@@ -217,24 +175,7 @@ export class User extends TornAPIBase {
             headers: { 'Content-Type': 'application/json' },
             method: 'get'
         });
-        if (query instanceof Error) {
-            return { code: 0, error: query.message };
-        } else {
-            const response = await query.json();
-            if (response.data && response.data.error) {
-                return response.data.error;
-            } else if (response.data) {
-                const missionReturn: IMissions[] = [];
-                const keys = Object.keys(response.data.missions);
-                for (let i = 0; i < keys.length; i++) {
-                    missionReturn.push({ id: keys[i], missions: response.data.missions[keys[i]] });
-                }
-
-                return missionReturn;
-            }
-
-            return TornAPIBase.GenericAPIError;
-        }
+        return await query.json();
     }
 
     async money(): Promise<Errorable<IMoney>> {

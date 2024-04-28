@@ -15,18 +15,7 @@ export class ItemMarket extends TornAPIBase {
             headers: { 'Content-Type': 'application/json' },
             method: 'get'
         });
-        if (query instanceof Error) {
-            return { code: 0, error: query.message };
-        } else {
-            const response = await query.json();
-            if (response.data && response.data.error) {
-                return response.data.error;
-            } else if (response.data) {
-                return [...response.data.bazaar, ...response.data.itemmarket];
-            }
-
-            return TornAPIBase.GenericAPIError;
-        }
+        return await query.json();
     }
 
     async bazaar(id: string): Promise<Errorable<IMarketItem[]>> {

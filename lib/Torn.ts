@@ -53,20 +53,7 @@ export class Torn extends TornAPIBase {
             headers: { 'Content-Type': 'application/json' },
             method: 'get'
         });
-        if (query instanceof Error) {
-            return { code: 0, error: query.message };
-        } else {
-            const response = await query.json();
-            if (response.data && response.data.error) {
-                return response.data.error;
-            } else if (response.data) {
-                const factionReturn: IChainReport = response.data.chainreport;
-                factionReturn.members = this.fixStringArray(factionReturn.members, '');
-                return factionReturn;
-            }
-
-            return TornAPIBase.GenericAPIError;
-        }
+        return await query.json();
     }
 
     async cityshops(): Promise<Errorable<ICityShop[]>> {
@@ -74,24 +61,7 @@ export class Torn extends TornAPIBase {
             headers: { 'Content-Type': 'application/json' },
             method: 'get'
         });
-
-        if (query instanceof Error) {
-            return { code: 0, error: query.message };
-        } else {
-            const response = await query.json();
-            if (response.data && response.data.error) {
-                return response.data.error;
-            } else if (response.data) {
-                const cityshops: ICityShop[] = this.fixStringArray(response.data['cityshops'], 'id');
-                for (let i = 0; i < cityshops.length; i++) {
-                    cityshops[i].inventory = this.fixStringArray(cityshops[i].inventory, 'id');
-                }
-
-                return cityshops;
-            }
-
-            return TornAPIBase.GenericAPIError;
-        }
+        return await query.json();
     }
 
     async companies(): Promise<Errorable<ITornCompany[]>> {
@@ -99,27 +69,7 @@ export class Torn extends TornAPIBase {
             headers: { 'Content-Type': 'application/json' },
             method: 'get'
         });
-
-        if (query instanceof Error) {
-            return { code: 0, error: query.message };
-        } else {
-            const response = await query.json();
-            if (response.data && response.data.error) {
-                return response.data.error;
-            } else if (response.data) {
-                const tornCompany: ITornCompany[] = this.fixStringArray(response.data['companies'], 'id');
-
-                tornCompany.forEach((company) => {
-                    company.positions = this.fixStringArray(company.positions, 'name');
-                    company.specials = this.fixStringArray(company.specials, 'name');
-                    company.stock = this.fixStringArray(company.stock, 'name');
-                });
-
-                return tornCompany;
-            }
-
-            return TornAPIBase.GenericAPIError;
-        }
+        return await query.json();
     }
 
     async education(): Promise<Errorable<ITornEducation[]>> {
@@ -131,23 +81,7 @@ export class Torn extends TornAPIBase {
             headers: { 'Content-Type': 'application/json' },
             method: 'get'
         });
-        if (query instanceof Error) {
-            return { code: 0, error: query.message };
-        } else {
-            const response = await query.json();
-            if (response.data && response.data.error) {
-                return response.data.error;
-            } else if (response.data) {
-                const returnTree: IFactionTree[] = this.fixStringArray(response.data.factiontree, 'id');
-                returnTree.forEach((item) => {
-                    item.branch = this.fixStringArray(item, 'id');
-                });
-
-                return returnTree;
-            }
-
-            return TornAPIBase.GenericAPIError;
-        }
+        return await query.json();
     }
 
     async gyms(): Promise<Errorable<ITornGym[]>> {
@@ -172,23 +106,7 @@ export class Torn extends TornAPIBase {
             headers: { 'Content-Type': 'application/json' },
             method: 'get'
         });
-        if (query instanceof Error) {
-            return { code: 0, error: query.message };
-        } else {
-            const response = await query.json();
-            if (response.data && response.data.error) {
-                return response.data.error;
-            } else if (response.data) {
-                const returnDetails = response.data.itemdetails;
-                if (response.data.itemdetails.bonuses) {
-                    returnDetails.bonuses = this.fixStringArray(response.data.itemdetails.bonuses, 'id');
-                }
-
-                return response.data.itemdetails;
-            }
-
-            return TornAPIBase.GenericAPIError;
-        }
+        return await query.json();
     }
 
     async logcategories(): Promise<Errorable<IKeyValue[]>> {
@@ -232,23 +150,7 @@ export class Torn extends TornAPIBase {
             headers: { 'Content-Type': 'application/json' },
             method: 'get'
         });
-        if (query instanceof Error) {
-            return { code: 0, error: query.message };
-        } else {
-            const response = await query.json();
-            if (response.data && response.data.error) {
-                return response.data.error;
-            } else if (response.data) {
-                const rankedWar: IRankedWar[] = this.fixStringArray(response.data.rankedwars, 'id');
-                rankedWar.forEach((item) => {
-                    item.factions = this.fixStringArray(item.factions, 'id');
-                });
-
-                return rankedWar;
-            }
-
-            return TornAPIBase.GenericAPIError;
-        }
+        return await query.json();
     }
 
     async rankedwarreport(id: string): Promise<Errorable<IRankedWarReport>> {
@@ -256,24 +158,7 @@ export class Torn extends TornAPIBase {
             headers: { 'Content-Type': 'application/json' },
             method: 'get'
         });
-        if (query instanceof Error) {
-            return { code: 0, error: query.message };
-        } else {
-            const response = await query.json();
-            if (response.data && response.data.error) {
-                return response.data.error;
-            } else if (response.data) {
-                const rw = response.data.rankedwarreport as IRankedWarReport;
-                rw.factions = this.fixStringArray(rw.factions, 'id');
-                for (let i = 0; i < rw.factions.length; i++) {
-                    rw.factions[i].rewards.items = this.fixStringArray(rw.factions[i].rewards.items, 'id');
-                }
-                rw.members = this.fixStringArray(rw.members, 'id');
-                return rw;
-            }
-
-            return TornAPIBase.GenericAPIError;
-        }
+        return await query.json();
     }
 
     /**
@@ -304,18 +189,7 @@ export class Torn extends TornAPIBase {
                 headers: { 'Content-Type': 'application/json' },
                 method: 'get'
             });
-            if (query instanceof Error) {
-                return { code: 0, error: query.message };
-            } else {
-                const response = await query.json();
-                if (response.data && response.data.error) {
-                    return response.data.error;
-                } else if (response.data) {
-                    return response.data.stocks[id];
-                }
-
-                return TornAPIBase.GenericAPIError;
-            }
+            return await query.json();
         } else {
             return this.apiQueryToArray({ route: 'torn', selection: 'stocks' });
         }

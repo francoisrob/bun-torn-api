@@ -35,20 +35,7 @@ export class Company extends TornAPIBase {
             headers: { 'Content-Type': 'application/json' },
             method: 'get'
         });
-        if (query instanceof Error) {
-            return { code: 0, error: query.message };
-        } else {
-            const response = await query.json();
-            if (response.data && response.data.error) {
-                return response.data.error;
-            } else if (response.data) {
-                const companyProfile: ICompanyProfile = response.data.company;
-                companyProfile.employees = this.fixStringArray(companyProfile.employees, 'id');
-                return companyProfile;
-            }
-        }
-
-        return TornAPIBase.GenericAPIError;
+        return await query.json();
     }
 
     async stock(): Promise<Errorable<ICompanyStock[]>> {

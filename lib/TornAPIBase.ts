@@ -15,30 +15,7 @@ export abstract class TornAPIBase {
             headers: { 'Content-Type': 'application/json' },
             method: 'get'
         });
-
-        if (query instanceof Error) {
-            return { code: 0, error: query.message };
-        } else {
-            const response = await query.json();
-            if (response.data && response.data.error) {
-                return response.data.error;
-            } else if (response.data) {
-                let jsonSelection = response.data;
-                if (params.jsonOverride) {
-                    jsonSelection = response.data[params.jsonOverride];
-                } else if (params.selection) {
-                    jsonSelection = response.data[params.selection];
-                }
-
-                if (jsonSelection) {
-                    return jsonSelection;
-                } else {
-                    return response.data;
-                }
-            }
-        }
-
-        return TornAPIBase.GenericAPIError;
+        return await query.json();
     }
 
     protected async apiQueryToArray<T>(params: QueryParams, keyField?: string): Promise<T[] | ITornApiError> {
@@ -46,33 +23,7 @@ export abstract class TornAPIBase {
             headers: { 'Content-Type': 'application/json' },
             method: 'get'
         });
-        if (query instanceof Error) {
-            return { code: 0, error: query.message };
-        } else {
-            const response = await query.json();
-            if (response.data && response.data.error) {
-                return response.data.error;
-            } else if (response.data) {
-                let jsonSelection = response.data;
-                if (params.jsonOverride) {
-                    jsonSelection = response.data[params.jsonOverride];
-                } else {
-                    jsonSelection = response.data[params.selection];
-                }
-
-                if (!jsonSelection) {
-                    return [];
-                }
-
-                if (keyField) {
-                    return this.fixStringArray(jsonSelection, keyField);
-                } else {
-                    return Object.values(jsonSelection);
-                }
-            }
-        }
-
-        return TornAPIBase.GenericAPIError;
+        return await query.json();
     }
 
     protected async apiQueryToKeyValueArray(params: QueryParams): Promise<IKeyValue[] | ITornApiError> {
@@ -80,26 +31,7 @@ export abstract class TornAPIBase {
             headers: { 'Content-Type': 'application/json' },
             method: 'get'
         });
-        if (query instanceof Error) {
-            return { code: 0, error: query.message };
-        } else {
-            const response = await query.json();
-            if (response.data && response.data.error) {
-                return response.data.error;
-            } else if (response.data) {
-                const types: IKeyValue[] = [];
-                const ids = Object.keys(response.data[params.selection]);
-                for (let i = 0; i < ids.length; i++) {
-                    const id = ids[i];
-                    const name = response.data[params.selection][id];
-                    types.push({ key: id, value: name });
-                }
-
-                return types;
-            }
-        }
-
-        return TornAPIBase.GenericAPIError;
+        return await query.json();
     }
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
@@ -161,18 +93,7 @@ export abstract class TornAPIBase {
             headers: { 'Content-Type': 'application/json' },
             method: 'get'
         });
-        if (query instanceof Error) {
-            return { code: 0, error: query.message };
-        } else {
-            const response = await query.json();
-            if (response.data && response.data.error) {
-                return response.data.error;
-            } else if (response.data) {
-                return response.data;
-            }
-        }
-
-        return TornAPIBase.GenericAPIError;
+        return await query.json();
     }
 }
 
