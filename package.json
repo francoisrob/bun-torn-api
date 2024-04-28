@@ -1,10 +1,10 @@
 {
   "name": "bun-torn-api",
   "version": "0.1.61",
-  "author": "JGolla",
+  "author": "francoisrob",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jgolla/torn-api.git"
+    "url": "git+https://github.com/francoisrob/bun-torn-api.git"
   },
   "main": "dist/index.js",
   "devDependencies": {
@@ -25,9 +25,6 @@
     "ts-node": "^10.2.1",
     "typescript": "^5.0.2"
   },
-  "bugs": {
-    "url": "https://github.com/jgolla/torn-api/issues"
-  },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
@@ -37,7 +34,7 @@
   "eslintIgnore": [
     "*.d.ts"
   ],
-  "homepage": "https://github.com/jgolla/torn-api#readme",
+  "homepage": "https://github.com/francoisrob/bun-torn-api",
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
