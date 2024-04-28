@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import {
     IBank,
     ITornGym,
@@ -12,7 +10,6 @@ import {
     IRaid,
     IStock,
     ITerritoryWar,
-    ITornApiError,
     ITornCompany,
     ITornProperty,
     ITornStats,
@@ -52,9 +49,11 @@ export class Torn extends TornAPIBase {
     }
 
     async chainreport(id: number): Promise<Errorable<IChainReport>> {
-        const response = await axios.get<{ error?: ITornApiError; chainreport: IChainReport }>(
-            this.buildUri({ route: 'torn', selection: 'chainreport', id: id ? id.toString() : '' })
-        );
+        const query = await fetch(this.buildUri({ route: 'torn', selection: 'chainreport', id: id ? id.toString() : '' }), {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'get'
+        });
+        const response = await query.json();
         if (response instanceof Error) {
             return { code: 0, error: response.message };
         } else {
@@ -71,7 +70,12 @@ export class Torn extends TornAPIBase {
     }
 
     async cityshops(): Promise<Errorable<ICityShop[]>> {
-        const response = await axios.get<{ error?: ITornApiError; cityshops: ICityShop[] }>(this.buildUri({ route: 'torn', selection: 'cityshops' }));
+        const query = await fetch(this.buildUri({ route: 'torn', selection: 'cityshops' }), {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'get'
+        });
+        const response = await query.json();
+
         if (response instanceof Error) {
             return { code: 0, error: response.message };
         } else {
@@ -91,7 +95,12 @@ export class Torn extends TornAPIBase {
     }
 
     async companies(): Promise<Errorable<ITornCompany[]>> {
-        const response = await axios.get<{ error?: ITornApiError; companies: ITornCompany }>(this.buildUri({ route: 'torn', selection: 'companies' }));
+        const query = await fetch(this.buildUri({ route: 'torn', selection: 'companies' }), {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'get'
+        });
+        const response = await query.json();
+
         if (response instanceof Error) {
             return { code: 0, error: response.message };
         } else {
@@ -118,7 +127,11 @@ export class Torn extends TornAPIBase {
     }
 
     async factiontree(): Promise<Errorable<IFactionTree[]>> {
-        const response = await axios.get<{ error?: ITornApiError; factiontree: IFactionTree }>(this.buildUri({ route: 'torn', selection: 'factiontree' }));
+        const query = await fetch(this.buildUri({ route: 'torn', selection: 'factiontree' }), {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'get'
+        });
+        const response = await query.json();
         if (response instanceof Error) {
             return { code: 0, error: response.message };
         } else {
@@ -155,9 +168,11 @@ export class Torn extends TornAPIBase {
      * @returns The IItemDetails
      */
     async itemdetails(uid: number): Promise<Errorable<IItemDetails>> {
-        const response = await axios.get<{ error?: ITornApiError; itemdetails: IItemDetails }>(
-            this.buildUri({ route: 'torn', selection: 'itemdetails', id: uid.toString() })
-        );
+        const query = await fetch(this.buildUri({ route: 'torn', selection: 'itemdetails', id: uid.toString() }), {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'get'
+        });
+        const response = await query.json();
         if (response instanceof Error) {
             return { code: 0, error: response.message };
         } else {
@@ -213,7 +228,11 @@ export class Torn extends TornAPIBase {
     }
 
     async rankedwars(): Promise<Errorable<IRankedWar[]>> {
-        const response = await axios.get<{ error?: ITornApiError; rankedwars: IRankedWar[] }>(this.buildUri({ route: 'torn', selection: 'rankedwars' }));
+        const query = await fetch(this.buildUri({ route: 'torn', selection: 'rankedwars' }), {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'get'
+        });
+        const response = await query.json();
         if (response instanceof Error) {
             return { code: 0, error: response.message };
         } else {
@@ -233,9 +252,11 @@ export class Torn extends TornAPIBase {
     }
 
     async rankedwarreport(id: string): Promise<Errorable<IRankedWarReport>> {
-        const response = await axios.get<{ error?: ITornApiError; rankedwarreport: IRankedWarReport }>(
-            this.buildUri({ route: 'torn', selection: 'rankedwarreports', id: id })
-        );
+        const query = await fetch(this.buildUri({ route: 'torn', selection: 'rankedwarreports', id: id }), {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'get'
+        });
+        const response = await query.json();
         if (response instanceof Error) {
             return { code: 0, error: response.message };
         } else {
@@ -279,9 +300,11 @@ export class Torn extends TornAPIBase {
 
     async stocks(id?: string): Promise<Errorable<IStock[] | IStockDetail>> {
         if (id) {
-            const response = await axios.get<{ error?: ITornApiError; stocks: Record<string, IStockDetail> }>(
-                this.buildUri({ route: 'torn', selection: 'stocks', id: id })
-            );
+            const query = await fetch(this.buildUri({ route: 'torn', selection: 'stocks', id: id }), {
+                headers: { 'Content-Type': 'application/json' },
+                method: 'get'
+            });
+            const response = await query.json();
             if (response instanceof Error) {
                 return { code: 0, error: response.message };
             } else {

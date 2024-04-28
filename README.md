@@ -1,3 +1,5 @@
+fetch implementation as axios does not work in bun
+
 # ts-torn-api
 
 ##

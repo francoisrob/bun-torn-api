@@ -1,6 +1,5 @@
 import { TornAPIBase } from './TornAPIBase';
-import { ICompanyDetailed, ICompany, ICompanyEmployee, ICompanyProfile, ITornApiError, INews, ICompanyStock, Errorable } from './Interfaces';
-import axios from 'axios';
+import { ICompanyDetailed, ICompany, ICompanyEmployee, ICompanyProfile, INews, ICompanyStock, Errorable } from './Interfaces';
 
 export class Company extends TornAPIBase {
     constructor(apiKey: string, comment: string) {
@@ -32,9 +31,11 @@ export class Company extends TornAPIBase {
     }
 
     async profile(id?: string): Promise<Errorable<ICompanyProfile>> {
-        const response = await axios.get<{ error?: ITornApiError; company: ICompanyProfile }>(
-            this.buildUri({ route: 'company', selection: 'profile', id: id })
-        );
+        const query = await fetch(this.buildUri({ route: 'company', selection: 'profile', id: id }), {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'get'
+        });
+        const response = await query.json();
         if (response instanceof Error) {
             return { code: 0, error: response.message };
         } else {

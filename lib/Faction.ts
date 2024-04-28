@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import { TornAPIBase } from './TornAPIBase';
 import {
     Errorable,
@@ -28,7 +26,6 @@ import {
     IStats,
     ITemporary,
     ITerritory,
-    ITornApiError,
     IUpgrade,
     IWeapon
 } from './Interfaces';
@@ -43,8 +40,12 @@ export class Faction extends TornAPIBase {
     }
 
     async faction(id?: string): Promise<Errorable<IFaction>> {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const response = await axios.get<any>(this.buildUri({ route: 'faction', selection: '', id: id }));
+        const query = await fetch(this.buildUri({ route: 'faction', selection: '', id: id }), {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'get'
+        });
+        const response = await query.json();
+
         if (response instanceof Error) {
             return { code: 0, error: response.message };
         } else {
@@ -123,7 +124,12 @@ export class Faction extends TornAPIBase {
     }
 
     async chainreport(): Promise<Errorable<IChainReport>> {
-        const response = await axios.get<{ error?: ITornApiError; chainreport: IChainReport }>(this.buildUri({ route: 'faction', selection: 'chainreport' }));
+        const query = await fetch(this.buildUri({ route: 'faction', selection: 'chainreport' }), {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'get'
+        });
+        const response = await query.json();
+
         if (response instanceof Error) {
             return { code: 0, error: response.message };
         } else {

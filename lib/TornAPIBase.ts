@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import { IKeyValue, ITornApiError } from './Interfaces';
 
 export abstract class TornAPIBase {
@@ -13,8 +11,12 @@ export abstract class TornAPIBase {
     }
 
     protected async apiQuery<T>(params: QueryParams): Promise<T | ITornApiError> {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const response = await axios.get<any>(this.buildUri(params));
+        const query = await fetch(this.buildUri(params), {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'get'
+        });
+        const response = await query.json();
+
         if (response instanceof Error) {
             return { code: 0, error: response.message };
         } else {
@@ -40,8 +42,11 @@ export abstract class TornAPIBase {
     }
 
     protected async apiQueryToArray<T>(params: QueryParams, keyField?: string): Promise<T[] | ITornApiError> {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const response = await axios.get<any>(this.buildUri(params));
+        const query = await fetch(this.buildUri(params), {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'get'
+        });
+        const response = await query.json();
         if (response instanceof Error) {
             return { code: 0, error: response.message };
         } else {
@@ -71,8 +76,11 @@ export abstract class TornAPIBase {
     }
 
     protected async apiQueryToKeyValueArray(params: QueryParams): Promise<IKeyValue[] | ITornApiError> {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const response = await axios.get<any>(this.buildUri(params));
+        const query = await fetch(this.buildUri(params), {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'get'
+        });
+        const response = await query.json();
         if (response instanceof Error) {
             return { code: 0, error: response.message };
         } else {
@@ -149,8 +157,11 @@ export abstract class TornAPIBase {
     }
 
     protected async multiQuery<T>(route: string, endpoints: string[], id?: string): Promise<ITornApiError | Record<string, T>> {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const response = await axios.get<any>(this.buildUri({ route: route, selection: endpoints.join(','), id: id }));
+        const query = await fetch(this.buildUri({ route: route, selection: endpoints.join(','), id: id }), {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'get'
+        });
+        const response = await query.json();
         if (response instanceof Error) {
             return { code: 0, error: response.message };
         } else {

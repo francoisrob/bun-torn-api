@@ -1,6 +1,5 @@
 import { TornAPIBase } from './TornAPIBase';
 import {
-    ITornApiError,
     IUser,
     IAmmo,
     IAttack,
@@ -41,7 +40,6 @@ import {
     IMissionStatus,
     Errorable
 } from './Interfaces';
-import axios from 'axios';
 
 export class User extends TornAPIBase {
     constructor(apiKey: string, comment: string) {
@@ -53,8 +51,11 @@ export class User extends TornAPIBase {
     }
 
     async user(id?: string): Promise<Errorable<IUser>> {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const response = await axios.get<any>(this.buildUri({ route: 'user', selection: '', id: id }));
+        const query = await fetch(this.buildUri({ route: 'user', selection: '', id: id }), {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'get'
+        });
+        const response = await query.json();
         if (response instanceof Error) {
             return { code: 0, error: response.message };
         } else {
@@ -152,9 +153,12 @@ export class User extends TornAPIBase {
     }
 
     async icons(id?: string): Promise<Errorable<IIcon[]>> {
-        const response = await axios.get<{ error?: ITornApiError; icons: Record<string, string> }>(
-            this.buildUri({ route: 'user', selection: 'icons', id: id })
-        );
+        const query = await fetch(this.buildUri({ route: 'user', selection: 'icons', id: id }), {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'get'
+        });
+        const response = await query.json();
+
         if (response instanceof Error) {
             return { code: 0, error: response.message };
         } else {
@@ -210,9 +214,11 @@ export class User extends TornAPIBase {
     }
 
     async missions(): Promise<Errorable<IMissions[]>> {
-        const response = await axios.get<{ error?: ITornApiError; missions: Record<string, IMissionStatus[]> }>(
-            this.buildUri({ route: 'user', selection: 'missions' })
-        );
+        const query = await fetch(this.buildUri({ route: 'user', selection: 'missions' }), {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'get'
+        });
+        const response = await query.json();
         if (response instanceof Error) {
             return { code: 0, error: response.message };
         } else {
