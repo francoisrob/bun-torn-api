@@ -53,10 +53,10 @@ export class Torn extends TornAPIBase {
             headers: { 'Content-Type': 'application/json' },
             method: 'get'
         });
-        const response = await query.json();
-        if (response instanceof Error) {
-            return { code: 0, error: response.message };
+        if (query instanceof Error) {
+            return { code: 0, error: query.message };
         } else {
+            const response = await query.json();
             if (response.data && response.data.error) {
                 return response.data.error;
             } else if (response.data) {
@@ -74,11 +74,11 @@ export class Torn extends TornAPIBase {
             headers: { 'Content-Type': 'application/json' },
             method: 'get'
         });
-        const response = await query.json();
 
-        if (response instanceof Error) {
-            return { code: 0, error: response.message };
+        if (query instanceof Error) {
+            return { code: 0, error: query.message };
         } else {
+            const response = await query.json();
             if (response.data && response.data.error) {
                 return response.data.error;
             } else if (response.data) {
@@ -99,11 +99,11 @@ export class Torn extends TornAPIBase {
             headers: { 'Content-Type': 'application/json' },
             method: 'get'
         });
-        const response = await query.json();
 
-        if (response instanceof Error) {
-            return { code: 0, error: response.message };
+        if (query instanceof Error) {
+            return { code: 0, error: query.message };
         } else {
+            const response = await query.json();
             if (response.data && response.data.error) {
                 return response.data.error;
             } else if (response.data) {
@@ -131,10 +131,10 @@ export class Torn extends TornAPIBase {
             headers: { 'Content-Type': 'application/json' },
             method: 'get'
         });
-        const response = await query.json();
-        if (response instanceof Error) {
-            return { code: 0, error: response.message };
+        if (query instanceof Error) {
+            return { code: 0, error: query.message };
         } else {
+            const response = await query.json();
             if (response.data && response.data.error) {
                 return response.data.error;
             } else if (response.data) {
@@ -172,10 +172,10 @@ export class Torn extends TornAPIBase {
             headers: { 'Content-Type': 'application/json' },
             method: 'get'
         });
-        const response = await query.json();
-        if (response instanceof Error) {
-            return { code: 0, error: response.message };
+        if (query instanceof Error) {
+            return { code: 0, error: query.message };
         } else {
+            const response = await query.json();
             if (response.data && response.data.error) {
                 return response.data.error;
             } else if (response.data) {
@@ -232,10 +232,10 @@ export class Torn extends TornAPIBase {
             headers: { 'Content-Type': 'application/json' },
             method: 'get'
         });
-        const response = await query.json();
-        if (response instanceof Error) {
-            return { code: 0, error: response.message };
+        if (query instanceof Error) {
+            return { code: 0, error: query.message };
         } else {
+            const response = await query.json();
             if (response.data && response.data.error) {
                 return response.data.error;
             } else if (response.data) {
@@ -256,10 +256,10 @@ export class Torn extends TornAPIBase {
             headers: { 'Content-Type': 'application/json' },
             method: 'get'
         });
-        const response = await query.json();
-        if (response instanceof Error) {
-            return { code: 0, error: response.message };
+        if (query instanceof Error) {
+            return { code: 0, error: query.message };
         } else {
+            const response = await query.json();
             if (response.data && response.data.error) {
                 return response.data.error;
             } else if (response.data) {
@@ -304,10 +304,10 @@ export class Torn extends TornAPIBase {
                 headers: { 'Content-Type': 'application/json' },
                 method: 'get'
             });
-            const response = await query.json();
-            if (response instanceof Error) {
-                return { code: 0, error: response.message };
+            if (query instanceof Error) {
+                return { code: 0, error: query.message };
             } else {
+                const response = await query.json();
                 if (response.data && response.data.error) {
                     return response.data.error;
                 } else if (response.data) {
