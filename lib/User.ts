@@ -37,7 +37,6 @@ import {
     ILog,
     IUserStockTransaction,
     IMissions,
-    IMissionStatus,
     Errorable
 } from './Interfaces';
 
