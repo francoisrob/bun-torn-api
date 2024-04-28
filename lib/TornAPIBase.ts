@@ -23,7 +23,12 @@ export abstract class TornAPIBase {
             headers: { 'Content-Type': 'application/json' },
             method: 'get'
         });
-        return await query.json();
+        const jsonSelection = await query.json();
+        if (keyField) {
+            return this.fixStringArray(jsonSelection, keyField);
+        }
+
+        return Object.values(jsonSelection);
     }
 
     protected async apiQueryToKeyValueArray(params: QueryParams): Promise<IKeyValue[] | ITornApiError> {
