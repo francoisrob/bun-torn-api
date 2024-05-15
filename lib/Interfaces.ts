@@ -153,7 +153,7 @@ export interface IFaction {
     peace: IPeace[];
     members: { [key: string]: IMember };
     rank: IFactionRank;
-    ranked_wars: IRankedWar;
+    ranked_wars: { [key: string]: IRankedWar };
 }
 
 export interface IFactionRank {
@@ -1266,13 +1266,13 @@ export interface IRaid {
 }
 
 export interface IRankedWar {
-    id: string;
     factions: {
-        id: string;
-        name: string;
-        score: number;
-        chain: number;
-    }[];
+        [key: string]: {
+            name: string;
+            score: number;
+            chain: number;
+        };
+    };
     war: {
         start: number;
         end: number;
