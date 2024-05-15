@@ -151,7 +151,7 @@ export interface IFaction {
     territory_wars: IFactionTerritoryWar[];
     raid_wars: IFactionRaid[];
     peace: IPeace[];
-    members: { [key: string]: IMember[] };
+    members: { [key: string]: IMember };
     rank: IFactionRank;
     ranked_wars: IRankedWar;
 }
