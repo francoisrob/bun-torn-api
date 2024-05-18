@@ -497,6 +497,7 @@ export interface IUser extends IBasicUser {
     states: IStates;
     last_action: ILastAction;
     revivable: number;
+    profile_image: string;
 }
 
 export interface IUserCompetition {
