@@ -116,7 +116,7 @@ class TornAPI {
 
     public static isError(input: any): input is ITornApiError {
         if (input) {
-            return input?.error !== undefined;
+            return (input as ITornApiError).error !== undefined;
         }
 
         return true;
