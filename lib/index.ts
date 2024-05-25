@@ -114,15 +114,9 @@ class TornAPI {
         return this._apikey;
     }
 
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
     public static isError(input: any): input is ITornApiError {
         if (input) {
-            const apiError = input as ITornApiError;
-            if (apiError) {
-                return apiError.error !== undefined;
-            }
-
-            return false;
+            return input?.error !== undefined;
         }
 
         return true;

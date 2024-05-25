@@ -96,8 +96,10 @@ export enum ApiErrorCodes {
 }
 
 export interface ITornApiError {
-    code: ApiErrorCodes;
-    error: string;
+    error: {
+        code: ApiErrorCodes;
+        error: string;
+    };
 }
 
 export type Errorable<T> = T | ITornApiError;
