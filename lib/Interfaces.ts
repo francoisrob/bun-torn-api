@@ -286,6 +286,10 @@ export interface IAttackFull {
     respect_gain: number;
 }
 
+export interface AttackResponse {
+    attacks: { [key: string]: IAttack };
+}
+
 export interface IAttack extends IAttackFull {
     attacker_name: string;
     attacker_factionname: string;

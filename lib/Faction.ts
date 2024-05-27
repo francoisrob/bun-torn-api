@@ -1,5 +1,6 @@
 import { TornAPIBase } from './TornAPIBase';
 import {
+  AttackResponse,
     Errorable,
     IApplication,
     IArmor,
@@ -61,7 +62,7 @@ export class Faction extends TornAPIBase {
         return this.apiQueryToArray({ route: 'faction', selection: 'attacknews', from: from, to: to }, 'id');
     }
 
-    async attacks(from?: number, to?: number): Promise<Errorable<IAttack[]>> {
+    async attacks(from?: number, to?: number): Promise<Errorable<AttackResponse>> {
         return this.apiQueryToArray({ route: 'faction', selection: 'attacks', from: from, to: to });
     }
 

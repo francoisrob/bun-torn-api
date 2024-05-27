@@ -18,29 +18,30 @@ export abstract class TornAPIBase {
         return await query.json();
     }
 
-    protected async apiQueryToArray<T>(params: QueryParams, keyField?: string): Promise<T[] | ITornApiError> {
-        const query = await fetch(this.buildUri(params), {
-            headers: { 'Content-Type': 'application/json' },
-            method: 'get'
-        });
-        const response = await query.json();
-
-        let jsonSelection = response;
-        if (params.jsonOverride) {
-            jsonSelection = response[params.jsonOverride];
-        } else {
-            jsonSelection = response[params.selection];
-        }
-
-        if (!jsonSelection) {
-            return [];
-        }
-
-        if (keyField) {
-            return this.fixStringArray(jsonSelection, keyField);
-        } else {
-            return Object.values(jsonSelection);
-        }
+    protected async apiQueryToArray<T>(params: QueryParams, keyField?: string): Promise<T | ITornApiError> {
+        return this.apiQuery(params)
+        // const query = await fetch(this.buildUri(params), {
+        //     headers: { 'Content-Type': 'application/json' },
+        //     method: 'get'
+        // });
+        // const response = await query.json();
+        //
+        // let jsonSelection = response;
+        // if (params.jsonOverride) {
+        //     jsonSelection = response[params.jsonOverride];
+        // } else {
+        //     jsonSelection = response[params.selection];
+        // }
+        //
+        // if (!jsonSelection) {
+        //     return [];
+        // }
+        //
+        // if (keyField) {
+        //     return this.fixStringArray(jsonSelection, keyField);
+        // } else {
+        //     return Object.values(jsonSelection);
+        // }
     }
 
     protected async apiQueryToKeyValueArray(params: QueryParams): Promise<IKeyValue[] | ITornApiError> {
